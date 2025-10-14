@@ -1,13 +1,15 @@
-import express from 'express'
+import express from 'express';
+import dotenv  from 'dotenv';
 
-const app = express()
+const app = express();
+dotenv.config();
 
 app.get("/", (req, res) => {
-  res.send('hello world')
+  res.send(`Hello world I am ${process.env.MY_NAME}. `)
 })
 
 app.get("/greeting", (req, res) => {
-  res.send('Hi, Tejas Mhatre')
+  res.send('Hi', process.env.MY_NAME)
 })
 
 app.listen(8000, () => {
