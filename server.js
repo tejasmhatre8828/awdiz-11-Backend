@@ -13,14 +13,14 @@ app.get("/", (req, res) => {
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  if(!email){
+  if (!email) {
     return res.send("Please enter email")
   }
-  if(!password){
+  if (!password) {
     return res.send("Please fill password")
   }
   console.log(email, "email");
-  res.send(email , password);
+  res.send(email, password);
 });
 
 app.post("/register", (req, res) => {
@@ -38,6 +38,22 @@ app.post("/register", (req, res) => {
   return res.send("User register successfully", users = newUser);
 });
 
+let userData = [
+  { id: 1, name: "Ram", age: 20 },
+  { id: 2, name: "Virat", age: 32 },
+  { id: 3, name: "Rohit", age: 27 },
+]
+
+app.put("/user/:id", (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  if(!userId){
+    return res.status(400).json({error: "Enter a valid userId"})
+  }
+
+  const user = userData.find((singleuser) => singleuser.id=== userId);
+  res.send(true);
+})
 app.listen(8000, () => {
   console.log("Server is running on http://localhost:8000")
 });
