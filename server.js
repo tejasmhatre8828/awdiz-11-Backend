@@ -47,12 +47,27 @@ let userData = [
 app.put("/user/:id", (req, res) => {
   const userId = parseInt(req.params.id);
 
-  if(!userId){
-    return res.status(400).json({error: "Enter a valid userId"})
+  const { name, age } = req.body;
+  const user = userData.find((singleuser) => singleuser.id === userId);
+
+  if (!userId) {
+    return res.status(400).json({ error: "User not found!" })
+  }
+  user.name = name;
+  user.age = age;
+
+  res.status(200).send(user);
+})
+
+app.delete("/user/:id/", (req, res) => {
+  const userId = parseInt(req.params.id);
+  const userIndex = userData.findIndex((user) => user.id === userId)
+  if (userIndex === -1) {
+    return res.status(404).json({ message: "User not found" });
   }
 
-  const user = userData.find((singleuser) => singleuser.id=== userId);
-  res.send(true);
+  userData.splice(userIndex, 1);
+  res.json({ message: "User Deleted Successfully." })
 })
 app.listen(8000, () => {
   console.log("Server is running on http://localhost:8000")
