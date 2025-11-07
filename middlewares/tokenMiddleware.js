@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const tokenDecoder = (req, res, next) => {
     try {
-        if (req === '/api/v1/auth/login' || req === '/api/v1/auth/register') {
+        if (req.originalUrl === '/api/v1/auth/login' || req.originalUrl === '/api/v1/auth/register') {
             return next();
         }
         const token = req.cookies.token;

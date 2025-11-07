@@ -60,8 +60,8 @@ export const Register = async (req, res) => {
 
 export const getCurrentUser = async (req, res) => {
     try {
-        // const token = req.cookies.token;
-        // console.log("Token from cookies", token)
+        const token = req.cookies.token;
+        console.log("Token from cookies", token)
         console.log("req.userId", req.userId)
 
         const isUserExists = await User.findById(req.userId)
