@@ -12,6 +12,7 @@ export const tokenDecoder = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log("decoded token", decoded)
         req.userId = decoded.userId;
+        req.role = decoded.role;
         next();
     } catch (error) {
         console.log("error", error);
