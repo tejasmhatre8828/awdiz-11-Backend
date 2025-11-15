@@ -16,8 +16,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-var users = [];
-
 app.get("/", (req, res) => {
   res.send("Server is running now");
 });
