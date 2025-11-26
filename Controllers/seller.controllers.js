@@ -2,9 +2,9 @@ import Product from "../models/product.schema.js";
 
 export const AddProduct = async (req, res) => {
     try {
-        const { name, price, category, quantity, imgUrl } = req.body;
+        const { name, price, category, subCategory, quantity, imgUrl, brand, sizes } = req.body;
         // validate fields
-        if (!name || !category || !quantity || !imgUrl || !price) {
+        if (!name || !category || !subCategory || !quantity || !imgUrl || !price || !brand || !sizes) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -14,9 +14,12 @@ export const AddProduct = async (req, res) => {
         const newProduct = await Product.create({
             name,
             category,
+            subCategory,
             quantity,
             imgUrl,
             price,
+            brand,
+            sizes,
             seller: req.user?._id, // optional
         });
 
@@ -68,7 +71,7 @@ export const SoftDeleteProduct = async (req, res) => {
 export const UpdateProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, price, quantity, category, imgUrl } = req.body;
+        const { name, price, quantity, category, subCategory, imgUrl, brand, sizes } = req.body;
 
         const product = await Product.findById(id);
         if (!product || product.isDeleted) {
@@ -80,7 +83,10 @@ export const UpdateProduct = async (req, res) => {
         if (price) product.price = price;
         if (quantity) product.quantity = quantity;
         if (category) product.category = category;
+        if (subCategory) product.subCategory = subCategory;
         if (imgUrl) product.imgUrl = imgUrl;
+        if (brand) product.brand = brand;
+        if (sizes) product.sizes = sizes;
 
         await product.save();
 
@@ -88,5 +94,21 @@ export const UpdateProduct = async (req, res) => {
     } catch (error) {
         console.log("Update product error:", error);
         res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+export const getSingleProductSeller = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            product,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "Getting error in signle product for seller" });
     }
 };

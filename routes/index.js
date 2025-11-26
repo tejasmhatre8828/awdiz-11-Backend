@@ -6,6 +6,8 @@ import { isRoleSeller } from "../middlewares/isRoleSeller.js";
 import sellerRouter from "./seller.routes.js";
 import userRouter from "./user.routes.js";
 import CartRouter from "./cart.route.js";
+import BlogRouter from "./blog.routs.js";
+import CommentRouter from "./comment.route.js";
 
 
 
@@ -20,6 +22,10 @@ MainRouter.use("/products", productRouter);
 MainRouter.use("/users", userRouter)
 
 MainRouter.use("/carts", CartRouter)
+
+MainRouter.use("/blogs", BlogRouter)
+
+MainRouter.use("/comments", CommentRouter)
 
 
 MainRouter.use("/payment", paymentRouter)
